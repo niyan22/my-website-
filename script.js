@@ -259,7 +259,8 @@ function initCertModal() {
   const modalClose = document.getElementById('cert-modal-close');
 
   document.querySelectorAll('.cert-card').forEach(card => {
-    card.addEventListener('click', () => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('a')) return;
       modalImg.src = card.dataset.img || '';
       modalTitle.textContent = card.dataset.title || '';
       modalMeta.textContent = (card.dataset.org || '') + ' - ' + (card.dataset.year || '');

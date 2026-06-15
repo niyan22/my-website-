@@ -133,7 +133,7 @@ body {
 
 /* ---- Buttons ---- */
 .btn-gold {
-  display: inline-flex; align-items: center; gap: 0.5rem;
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
   padding: 0.75rem 1.75rem;
   background: var(--gold); color: #0F172A;
   font-family: 'Poppins', sans-serif; font-size: 0.875rem; font-weight: 600;
@@ -148,7 +148,7 @@ body {
 .btn-gold:active { transform: translateY(0); }
 
 .btn-outline {
-  display: inline-flex; align-items: center; gap: 0.5rem;
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
   padding: 0.75rem 1.75rem;
   background: transparent; color: var(--gold);
   font-family: 'Poppins', sans-serif; font-size: 0.875rem; font-weight: 600;
@@ -355,6 +355,13 @@ body {
   transform: translateY(-4px); box-shadow: var(--shadow-gold);
 }
 .cert-card img { width: 100%; height: 148px; object-fit: cover; display: block; }
+.cert-thumb {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+}
 
 /* ---- Gallery Masonry ---- */
 .masonry { columns: 3; column-gap: 1rem; }
@@ -402,7 +409,7 @@ body {
   border-radius: var(--radius); max-width: 520px; width: 100%;
   overflow: hidden; box-shadow: 0 32px 80px rgba(0,0,0,0.5);
 }
-.modal-box img { width: 100%; height: 240px; object-fit: cover; display: block; }
+.modal-box img { width: 100%; max-height: 60vh; object-fit: contain; display: block; }
 
 /* ---- Social ---- */
 .social-link {
@@ -467,8 +474,62 @@ body {
 
 [data-aos] { transition-duration: 0.65s !important; }
 
+/* ===================== MOBILE RESPONSIVE ===================== */
 @media (max-width: 767px) {
-  .section-pad { padding: 4rem 0; }
-  .profile-wrap { width: min(240px, 72vw); }
+  /* Section spacing */
+  .section-pad { padding: 3.5rem 0; }
+
+  /* Hero */
+  .profile-wrap { width: min(220px, 65vw); margin-bottom: 1rem; }
   .float-badge { display: none; }
+  #hero .grid { gap: 2rem; }
+  #hero h1 { font-size: clamp(2rem, 9vw, 2.8rem) !important; }
+
+  /* About */
+  .about-photo { width: 220px; height: 220px; }
+  #about .grid { gap: 2.5rem; }
+
+  /* Timeline */
+  .tl-wrap { padding-left: 1.5rem; }
+  .tl-item { padding-left: 2rem; }
+
+  /* Skills */
+  .skill-card { width: 80px; }
+
+  /* Portfolio */
+  .proj-thumb { height: 200px !important; }
+
+  /* Contact */
+  #contact .grid { gap: 2.5rem; }
+  .glass-card.p-7 { padding: 1.25rem !important; }
+
+  /* Footer */
+  footer .grid { text-align: center; }
+  footer .space-y-2 a { display: block; }
+
+  /* Certificates */
+  .cert-card { max-width: 100% !important; }
+  .modal-box { max-width: calc(100vw - 2rem); }
+  .modal-box img { max-height: 50vh; }
+
+  /* Gallery */
+  .masonry { columns: 2; }
+}
+
+@media (max-width: 480px) {
+  /* Extra small screens */
+  .section-pad { padding: 3rem 0; }
+  .profile-wrap { width: min(200px, 60vw); }
+  .about-photo { width: 180px; height: 180px; }
+  .masonry { columns: 1; }
+  .glass-card.p-7 { padding: 1rem !important; }
+  .social-link { width: 44px; height: 44px; }
+
+  /* Hero buttons always full width on tiny screens */
+  .btn-gold, .btn-outline { width: 100%; justify-content: center; }
+
+  /* Shrink skill cards to fit */
+  .skill-card { width: 72px; padding: 0.85rem 0.4rem; }
+  .skill-card img { width: 26px; height: 26px; }
+  .skill-name { font-size: 0.62rem; }
 }

@@ -116,7 +116,7 @@
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 
         <!-- Left: Text -->
-        <div data-aos="fade-right">
+        <div data-aos="fade-right" class="order-2 lg:order-1 flex flex-col items-center lg:items-start text-center lg:text-left">
           <div class="status-badge mb-6">
             <span class="status-dot"></span>
             Available for Opportunities
@@ -127,7 +127,7 @@
             <span style="color: var(--gold)">Regina Kasih</span>
           </h1>
 
-          <div class="flex items-center gap-2 mb-5" style="font-size: clamp(1rem, 2vw, 1.2rem); color: var(--text-muted)">
+          <div class="flex items-center justify-center lg:justify-start gap-2 mb-5" style="font-size: clamp(1rem, 2vw, 1.2rem); color: var(--text-muted)">
             <span class="font-inter">I'm a </span>
             <span id="typing-text" class="font-poppins font-semibold" style="color: var(--gold)"></span>
             <span class="typing-cursor"></span>
@@ -137,21 +137,21 @@
             Building digital experiences through code and design. Passionate about crafting meaningful software solutions that make a difference.
           </p>
 
-          <div class="flex flex-wrap gap-3">
-            <a href="#portfolio" class="btn-gold">
+          <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+            <a href="#portfolio" class="btn-gold justify-center">
               <i data-lucide="folder-open" class="w-4 h-4"></i> View Projects
             </a>
-            <a href="#" class="btn-outline" id="download-cv">
+            <a href="#" class="btn-outline justify-center" id="download-cv">
               <i data-lucide="download" class="w-4 h-4"></i> Download CV
             </a>
-            <a href="#contact" class="btn-outline">
+            <a href="#contact" class="btn-outline justify-center">
               <i data-lucide="mail" class="w-4 h-4"></i> Contact Me
             </a>
           </div>
         </div>
 
         <!-- Right: Photo -->
-        <div class="flex justify-center lg:justify-end" data-aos="fade-left" data-aos-delay="150">
+        <div class="flex justify-center lg:justify-end order-1 lg:order-2" data-aos="fade-left" data-aos-delay="150">
           <div class="profile-wrap">
             <div class="profile-ring"></div>
             <div class="profile-ring-outer"></div>
@@ -189,7 +189,7 @@
         </div>
 
         <!-- Text -->
-        <div data-aos="fade-left" data-aos-delay="100">
+        <div data-aos="fade-left" data-aos-delay="100" class="flex flex-col items-center lg:items-start text-center lg:text-left w-full">
           <h2 class="section-title mb-2">About Me</h2>
           <span class="gold-line mb-6"></span>
 
@@ -200,7 +200,7 @@
             I enjoy creating meaningful digital solutions, learning new technologies, and collaborating in teams to build products that make a real impact.
           </p>
 
-          <div class="flex flex-wrap gap-3 mb-8">
+          <div class="flex flex-wrap justify-center lg:justify-start gap-3 mb-8">
             <span class="info-pill">
               <i data-lucide="map-pin" class="w-3.5 h-3.5" style="color: var(--gold)"></i>
               Pekanbaru, Riau
@@ -219,7 +219,7 @@
             </span>
           </div>
 
-          <a href="#contact" class="btn-gold">
+          <a href="#contact" class="btn-gold justify-center w-full sm:w-auto">
             <i data-lucide="send" class="w-4 h-4"></i> Get in Touch
           </a>
         </div>
@@ -352,7 +352,7 @@
       </div>
 
       <!-- Filters -->
-      <div class="flex flex-wrap gap-2 mb-8" data-aos="fade-up" data-aos-delay="80">
+      <div class="flex flex-wrap justify-center lg:justify-start gap-2 mb-8" data-aos="fade-up" data-aos-delay="80">
         <button class="filter-btn active" data-filter="all">All</button>
         <button class="filter-btn" data-filter="web">Web Development</button>
         <button class="filter-btn" data-filter="mobile">Mobile App</button>
@@ -397,8 +397,12 @@
       </div>
 
       <div class="flex justify-center">
-        <div class="cert-card w-full max-w-sm" data-aos="fade-up">
-          <img src="sertifikat web dasar.jpg" alt="Dicoding Certificate" style="width:100%; height:180px; object-fit:cover; object-position:top; display:block;">
+        <div class="cert-card w-full max-w-sm" data-aos="fade-up"
+          data-img="sertifikat web dasar.jpg"
+          data-title="Learn Basic Web Programming"
+          data-org="Dicoding Indonesia"
+          data-year="2023">
+          <img src="sertifikat web dasar.jpg" alt="Dicoding Certificate" class="cert-thumb">
           <div class="p-5">
             <p class="font-poppins font-semibold text-sm mb-0.5" style="color: var(--text)">Learn Basic Web Programming</p>
             <p class="text-xs mb-4" style="color: var(--gold)">Dicoding Indonesia</p>
@@ -609,13 +613,13 @@
     <div class="max-w-7xl mx-auto px-5 lg:px-8 py-10">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
         <!-- Brand -->
-        <div>
+        <div class="text-center md:text-left">
           <p class="font-poppins font-bold text-2xl mb-2" style="color: var(--gold)">CRK.</p>
           <p class="text-sm leading-relaxed" style="color: var(--text-muted)">Chahniyan Regina Kasih<br>Informatics Engineering Student</p>
         </div>
 
         <!-- Quick Links -->
-        <div>
+        <div class="text-center md:text-left">
           <p class="font-poppins font-semibold text-sm uppercase tracking-wider mb-4" style="color: var(--text-muted)">Quick Links</p>
           <div class="space-y-2">
             <a href="#about" class="block text-sm transition-colors" style="color: var(--text-muted)" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text-muted)'">About Me</a>
@@ -626,9 +630,9 @@
         </div>
 
         <!-- Social -->
-        <div>
+        <div class="flex flex-col items-center md:items-start text-center md:text-left">
           <p class="font-poppins font-semibold text-sm uppercase tracking-wider mb-4" style="color: var(--text-muted)">Social</p>
-          <div class="flex flex-wrap gap-3">
+          <div class="flex flex-wrap justify-center md:justify-start gap-3">
             <a href="https://github.com/niyan22" target="_blank" rel="noopener" class="social-link" style="width:40px;height:40px;" aria-label="GitHub">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
             </a>
