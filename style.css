@@ -46,7 +46,7 @@
 
 /* ---- Base ---- */
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
 body {
   background-color: var(--bg);
   color: var(--text);
@@ -477,31 +477,42 @@ body {
 /* ===================== MOBILE RESPONSIVE ===================== */
 @media (max-width: 767px) {
   /* Section spacing */
-  .section-pad { padding: 3.5rem 0; }
+  .section-pad { padding: 3rem 0; }
 
-  /* Hero */
-  .profile-wrap { width: min(220px, 65vw); margin-bottom: 1rem; }
+  /* Hero — compact to fit in one screen */
+  #hero {
+    min-height: 100dvh;
+    padding-top: 4.5rem;
+    align-items: flex-start;
+  }
+  #hero .grid { gap: 1.25rem; padding-top: 1rem; }
+  .profile-wrap { width: min(160px, 50vw); margin-bottom: 0.5rem; }
   .float-badge { display: none; }
-  #hero .grid { gap: 2rem; }
-  #hero h1 { font-size: clamp(2rem, 9vw, 2.8rem) !important; }
+  #hero h1 { font-size: clamp(1.7rem, 8vw, 2.2rem) !important; margin-bottom: 0.5rem !important; }
+  #hero .status-badge { margin-bottom: 0.75rem !important; }
+  #hero p.font-inter { margin-bottom: 1rem !important; font-size: 0.875rem !important; }
+  #hero .flex.flex-col { gap: 0.6rem !important; }
+  #hero .btn-gold, #hero .btn-outline { padding: 0.6rem 1.25rem !important; font-size: 0.8rem !important; }
 
   /* About */
-  .about-photo { width: 220px; height: 220px; }
-  #about .grid { gap: 2.5rem; }
+  .about-photo { width: 180px; height: 180px; }
+  #about .grid { gap: 2rem; }
 
-  /* Timeline */
-  .tl-wrap { padding-left: 1.5rem; }
-  .tl-item { padding-left: 2rem; }
+  /* Timeline — reduce padding so text has more room */
+  .tl-wrap { padding-left: 1.25rem; }
+  .tl-item { padding-left: 1.75rem; padding-bottom: 1.75rem; }
+  .tl-item .glass-card { padding: 1rem !important; }
+  .tl-dot { width: 1.8rem; height: 1.8rem; left: -0.55rem; }
 
   /* Skills */
   .skill-card { width: 80px; }
 
   /* Portfolio */
-  .proj-thumb { height: 200px !important; }
+  .proj-thumb { height: 180px !important; }
 
   /* Contact */
-  #contact .grid { gap: 2.5rem; }
-  .glass-card.p-7 { padding: 1.25rem !important; }
+  #contact .grid { gap: 2rem; }
+  .glass-card.p-7 { padding: 1.1rem !important; }
 
   /* Footer */
   footer .grid { text-align: center; }
@@ -517,19 +528,48 @@ body {
 }
 
 @media (max-width: 480px) {
-  /* Extra small screens */
-  .section-pad { padding: 3rem 0; }
-  .profile-wrap { width: min(200px, 60vw); }
-  .about-photo { width: 180px; height: 180px; }
-  .masonry { columns: 1; }
-  .glass-card.p-7 { padding: 1rem !important; }
-  .social-link { width: 44px; height: 44px; }
+  /* Extra small screens (≤480px) */
+  .section-pad { padding: 2.5rem 0; }
 
-  /* Hero buttons always full width on tiny screens */
-  .btn-gold, .btn-outline { width: 100%; justify-content: center; }
+  /* Hero — tighter on small phones */
+  .profile-wrap { width: min(140px, 45vw); }
+  #hero h1 { font-size: clamp(1.5rem, 7.5vw, 1.9rem) !important; }
+  #hero .btn-gold, #hero .btn-outline {
+    padding: 0.55rem 1rem !important;
+    font-size: 0.78rem !important;
+    width: 100%;
+  }
 
-  /* Shrink skill cards to fit */
+  /* Global buttons on small phones */
+  .btn-gold, .btn-outline { font-size: 0.82rem; padding: 0.65rem 1.25rem; }
+
+  /* About */
+  .about-photo { width: 150px; height: 150px; }
+
+  /* Info pills wrap tight */
+  .info-pill { font-size: 0.72rem; padding: 0.35rem 0.7rem; }
+
+  /* Skills */
   .skill-card { width: 72px; padding: 0.85rem 0.4rem; }
   .skill-card img { width: 26px; height: 26px; }
   .skill-name { font-size: 0.62rem; }
+
+  /* Timeline */
+  .tl-wrap { padding-left: 1rem; }
+  .tl-item { padding-left: 1.5rem; padding-bottom: 1.5rem; }
+  .tl-item .glass-card { padding: 0.85rem !important; }
+  .tl-dot { width: 1.6rem; height: 1.6rem; }
+
+  /* Contact form */
+  .glass-card.p-7 { padding: 0.85rem !important; }
+  .form-input { padding: 0.7rem 0.85rem; font-size: 0.85rem; }
+
+  /* Footer */
+  .social-link { width: 40px; height: 40px; }
+
+  /* Gallery */
+  .masonry { columns: 1; }
+
+  /* Section title smaller */
+  .section-title { font-size: clamp(1.4rem, 6vw, 1.8rem); }
 }
