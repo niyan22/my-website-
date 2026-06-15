@@ -243,7 +243,8 @@ body {
 /* ---- About ---- */
 .about-photo {
   width: 100%; max-width: 380px; aspect-ratio: 3/4;
-  object-fit: cover; border-radius: var(--radius);
+  object-fit: cover; object-position: top center;
+  border-radius: var(--radius);
   border: 2px solid var(--border);
 }
 .info-pill {
