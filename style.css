@@ -573,3 +573,128 @@ body {
   /* Section title smaller */
   .section-title { font-size: clamp(1.4rem, 6vw, 1.8rem); }
 }
+
+/* ================================================================
+   ENHANCED INTERACTIVITY & ANIMATIONS
+   ================================================================ */
+
+/* 1. Section title gold shimmer */
+.section-title {
+  background: linear-gradient(90deg, var(--text) 15%, var(--gold) 45%, #FFD700 55%, var(--text) 85%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: title-shimmer 6s linear infinite;
+}
+@keyframes title-shimmer {
+  from { background-position: 200% center; }
+  to   { background-position: -200% center; }
+}
+
+/* 2. About photo glow pulse */
+.about-photo {
+  animation: photo-glow 3s ease-in-out infinite;
+}
+@keyframes photo-glow {
+  0%, 100% { box-shadow: 0 0 0 8px rgba(212,175,55,0.12), 0 0 30px rgba(212,175,55,0.05); }
+  50%       { box-shadow: 0 0 0 14px rgba(212,175,55,0.22), 0 0 60px rgba(212,175,55,0.12); }
+}
+
+/* 3. Skill grid tab-switch entrance */
+.skill-grid.active {
+  animation: skillGridIn 0.45s cubic-bezier(0.16,1,0.3,1) both;
+}
+@keyframes skillGridIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.skill-grid.active .skill-card {
+  animation: skillCardIn 0.4s cubic-bezier(0.16,1,0.3,1) both;
+}
+.skill-grid.active .skill-card:nth-child(1) { animation-delay: 0.03s; }
+.skill-grid.active .skill-card:nth-child(2) { animation-delay: 0.08s; }
+.skill-grid.active .skill-card:nth-child(3) { animation-delay: 0.13s; }
+.skill-grid.active .skill-card:nth-child(4) { animation-delay: 0.18s; }
+@keyframes skillCardIn {
+  from { opacity: 0; transform: scale(0.8) translateY(8px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* 4. Skill card enhanced hover */
+.skill-card:hover {
+  transform: translateY(-8px) scale(1.07) !important;
+  box-shadow: 0 16px 36px rgba(212,175,55,0.24), 0 0 0 1px rgba(212,175,55,0.45) !important;
+  border-color: var(--gold) !important;
+  background: rgba(212,175,55,0.07) !important;
+}
+.skill-card img {
+  transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+}
+.skill-card:hover img {
+  transform: scale(1.22) rotate(-5deg);
+}
+
+/* 5. Button click ripple */
+.btn-gold, .btn-outline { position: relative; overflow: hidden; }
+.ripple {
+  position: absolute; border-radius: 50%;
+  background: rgba(255,255,255,0.28);
+  width: 10px; height: 10px;
+  margin-top: -5px; margin-left: -5px;
+  transform: scale(0); pointer-events: none;
+  animation: ripple-out 0.65s ease-out forwards;
+}
+@keyframes ripple-out {
+  to { transform: scale(32); opacity: 0; }
+}
+
+/* 6. Hero floating particles */
+.hero-particles {
+  position: absolute; inset: 0;
+  overflow: hidden; pointer-events: none; z-index: 0;
+}
+.particle {
+  position: absolute; border-radius: 50%;
+  background: var(--gold); opacity: 0;
+  animation: particle-rise var(--dur, 6s) ease-in-out var(--delay, 0s) infinite;
+}
+@keyframes particle-rise {
+  0%   { opacity: 0; transform: translateY(10px) scale(0); }
+  15%  { opacity: 0.5; }
+  85%  { opacity: 0.15; }
+  100% { opacity: 0; transform: translateY(-100px) scale(1.2); }
+}
+
+/* 7. Timeline dot hover glow */
+.tl-dot { transition: all 0.35s ease; }
+.tl-item:hover .tl-dot {
+  box-shadow: 0 0 0 8px rgba(212,175,55,0.13), 0 0 22px rgba(212,175,55,0.22);
+}
+
+/* 8. Social link spring */
+.social-link {
+  transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1) !important;
+}
+.social-link:hover {
+  transform: translateY(-6px) scale(1.12) !important;
+  box-shadow: 0 12px 28px rgba(212,175,55,0.28) !important;
+}
+
+/* 9. Typing text glow */
+#typing-text {
+  text-shadow: 0 0 24px rgba(212,175,55,0.38);
+}
+
+/* 10. Filter button active soft pulse */
+.filter-btn.active {
+  animation: btn-pulse 2.5s ease-in-out infinite;
+}
+@keyframes btn-pulse {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(212,175,55,0.18); }
+  50%       { box-shadow: 0 0 0 7px rgba(212,175,55,0.04); }
+}
+
+/* 11. Project/cert card — prep for JS tilt */
+.project-card, .cert-card { will-change: transform; }

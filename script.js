@@ -18,6 +18,10 @@ function initAll() {
   initGalleryLightbox();
   initContactForm();
   initSmoothScroll();
+  initParticles();
+  initParallax();
+  initCardTilt();
+  initRipple();
 }
 
 // Lucide needs to load from CDN first; retry until available
@@ -374,6 +378,71 @@ function initSmoothScroll() {
       const offset = 80;
       const top = target.getBoundingClientRect().top + window.scrollY - offset;
       window.scrollTo({ top, behavior: 'smooth' });
+    });
+  });
+}
+
+// ---- Hero Floating Particles ----
+function initParticles() {
+  const hero = document.getElementById('hero');
+  if (!hero) return;
+  const wrap = document.createElement('div');
+  wrap.className = 'hero-particles';
+  hero.insertBefore(wrap, hero.firstChild);
+  for (let i = 0; i < 20; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = 1.2 + Math.random() * 2.2;
+    p.style.cssText = `left:${Math.random()*100}%;bottom:${Math.random()*60}%;width:${size}px;height:${size}px;--dur:${5+Math.random()*7}s;--delay:${Math.random()*9}s;`;
+    wrap.appendChild(p);
+  }
+}
+
+// ---- Hero Mouse Parallax ----
+function initParallax() {
+  const blobs = document.querySelectorAll('.hero-bg');
+  if (!blobs.length || window.matchMedia('(max-width:768px)').matches) return;
+  document.addEventListener('mousemove', (e) => {
+    const cx = e.clientX / window.innerWidth - 0.5;
+    const cy = e.clientY / window.innerHeight - 0.5;
+    blobs.forEach((b, i) => {
+      const d = (i + 1) * 18;
+      b.style.transform = `translate(${cx * d}px, ${cy * d}px)`;
+    });
+  });
+}
+
+// ---- 3D Card Tilt ----
+function initCardTilt() {
+  if (window.matchMedia('(max-width:768px)').matches) return;
+  document.querySelectorAll('.project-card, .cert-card').forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      card.style.transition = 'transform 0.1s ease, border-color 0.3s ease, box-shadow 0.3s ease';
+    });
+    card.addEventListener('mousemove', (e) => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      card.style.transform = `perspective(900px) rotateX(${-y * 7}deg) rotateY(${x * 7}deg) translateY(-6px) scale(1.01)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transition = 'transform 0.5s cubic-bezier(0.16,1,0.3,1), border-color 0.3s ease, box-shadow 0.3s ease';
+      card.style.transform = '';
+    });
+  });
+}
+
+// ---- Button Ripple ----
+function initRipple() {
+  document.querySelectorAll('.btn-gold, .btn-outline').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const r = btn.getBoundingClientRect();
+      const ripple = document.createElement('span');
+      ripple.className = 'ripple';
+      ripple.style.left = (e.clientX - r.left) + 'px';
+      ripple.style.top  = (e.clientY - r.top)  + 'px';
+      btn.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 700);
     });
   });
 }
