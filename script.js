@@ -27,6 +27,7 @@ function initAll() {
   initCardSpotlight();
   initCharSplit();
   initMagneticBtns();
+  initCatEyes();
 }
 
 // Lucide needs to load from CDN first; retry until available
@@ -570,6 +571,47 @@ function initCharSplit() {
       wrap.setAttribute('style', origColor);
       h1.replaceChild(wrap, node);
     }
+  });
+}
+
+// ---- Cat Eye Tracking ----
+function initCatEyes() {
+  if (window.matchMedia('(max-width: 1280px)').matches) return;
+  const cat = document.querySelector('.hero-cat');
+  if (!cat) return;
+
+  const svg  = cat.querySelector('.cat-svg');
+  const eyeL = cat.querySelector('.eye-l');
+  const eyeR = cat.querySelector('.eye-r');
+  if (!svg || !eyeL || !eyeR) return;
+
+  // Eye centers in SVG viewBox coordinates
+  const EYES = [
+    { el: eyeL, bx: 61, by: 98 },
+    { el: eyeR, bx: 99, by: 98 },
+  ];
+  const VB_W = 160, VB_H = 222, MAX_MOVE = 2.6;
+
+  function track(mx, my) {
+    const rect = svg.getBoundingClientRect();
+    const sx = rect.width  / VB_W;
+    const sy = rect.height / VB_H;
+
+    EYES.forEach(({ el, bx, by }) => {
+      const ex = rect.left + bx * sx;
+      const ey = rect.top  + by * sy;
+      const dx = mx - ex, dy = my - ey;
+      const dist = Math.hypot(dx, dy) || 1;
+      const f = Math.min(1, dist / 250);
+      const ox = (dx / dist) * f * MAX_MOVE;
+      const oy = (dy / dist) * f * MAX_MOVE;
+      el.setAttribute('transform', `translate(${ox.toFixed(2)},${oy.toFixed(2)})`);
+    });
+  }
+
+  document.addEventListener('mousemove', e => track(e.clientX, e.clientY));
+  document.addEventListener('mouseleave', () => {
+    EYES.forEach(({ el }) => el.setAttribute('transform', 'translate(0,0)'));
   });
 }
 

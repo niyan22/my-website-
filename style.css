@@ -813,4 +813,78 @@ html { scroll-behavior: auto !important; }
   .skill-grid.active .skill-card { animation: none !important; opacity: 1 !important; }
   .filter-btn.active { animation: none !important; }
   .card-spot { display: none; }
+  .hero-cat { display: none !important; }
+}
+
+/* ================================================================
+   CARTOON CAT CHARACTER
+   ================================================================ */
+
+/* Container — bottom-right of hero, xl+ screens only */
+.hero-cat {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 2rem;
+  width: 130px;
+  z-index: 3;
+  pointer-events: none;
+  display: none;
+}
+@media (min-width: 1280px) {
+  .hero-cat { display: block; }
+}
+
+/* Main SVG — whole body floats */
+.cat-svg {
+  width: 100%; height: auto;
+  animation: cat-float 2.4s ease-in-out infinite;
+  filter: drop-shadow(0 14px 22px rgba(0,0,0,0.35));
+  overflow: visible;
+}
+
+/* Ground shadow pulses opposite to float */
+.cat-shadow {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: cat-shadow 2.4s ease-in-out infinite;
+}
+
+/* Tail group rotates from its base */
+.cat-tail {
+  transform-box: fill-box;
+  transform-origin: 66px 178px;
+  animation: tail-wag 1.7s ease-in-out infinite;
+}
+
+/* Eyelids: hidden by default (scaleY 0), animate to close */
+.eyelid {
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scaleY(0);
+  animation: cat-blink 5s ease-in-out infinite;
+}
+.eyelid-r { animation-delay: 0.06s; }
+
+/* Eye inner groups (pupils track cursor via JS) */
+.eye-inner {
+  transition: transform 0.08s ease-out;
+}
+
+/* Keyframes */
+@keyframes cat-float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-12px); }
+}
+@keyframes cat-shadow {
+  0%, 100% { transform: scaleX(1);    opacity: 0.9; }
+  50%       { transform: scaleX(0.75); opacity: 0.5; }
+}
+@keyframes tail-wag {
+  0%, 100% { transform: rotate(-22deg); }
+  50%       { transform: rotate(22deg); }
+}
+@keyframes cat-blink {
+  /* Eyes open most of the time, brief close near end of cycle */
+  0%, 88%,  96%, 100% { transform: scaleY(0); }
+  90%, 94%             { transform: scaleY(1); }
 }
