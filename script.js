@@ -5,6 +5,7 @@
 
 // ---- Init ----
 function initAll() {
+  initLenis();          // must be first — owns scroll
   initLoading();
   initTheme();
   initAOS();
@@ -22,6 +23,10 @@ function initAll() {
   initParallax();
   initCardTilt();
   initRipple();
+  initCustomCursor();
+  initCardSpotlight();
+  initCharSplit();
+  initMagneticBtns();
 }
 
 // Lucide needs to load from CDN first; retry until available
@@ -152,16 +157,20 @@ function initMobileMenu() {
 // ---- Scroll Progress ----
 function initScrollProgress() {
   const bar = document.getElementById('scroll-progress');
+  if (!bar) return;
 
-  const update = () => {
-    const scrollTop = window.scrollY;
+  const update = (scrollY) => {
     const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    const pct = docHeight > 0 ? (scrollY / docHeight) * 100 : 0;
     bar.style.width = pct + '%';
   };
 
-  window.addEventListener('scroll', update, { passive: true });
-  update();
+  if (window._lenis) {
+    window._lenis.on('scroll', ({ scroll }) => update(scroll));
+  } else {
+    window.addEventListener('scroll', () => update(window.scrollY), { passive: true });
+    update(window.scrollY);
+  }
 }
 
 // ---- Typing Animation ----
@@ -375,9 +384,12 @@ function initSmoothScroll() {
       const target = document.querySelector(href);
       if (!target) return;
       e.preventDefault();
-      const offset = 80;
-      const top = target.getBoundingClientRect().top + window.scrollY - offset;
-      window.scrollTo({ top, behavior: 'smooth' });
+      if (window._lenis) {
+        window._lenis.scrollTo(target, { offset: -80, duration: 1.1 });
+      } else {
+        const top = target.getBoundingClientRect().top + window.scrollY - 80;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
     });
   });
 }
@@ -443,6 +455,137 @@ function initRipple() {
       ripple.style.top  = (e.clientY - r.top)  + 'px';
       btn.appendChild(ripple);
       setTimeout(() => ripple.remove(), 700);
+    });
+  });
+}
+
+// ---- Lenis Smooth Scroll Engine ----
+function initLenis() {
+  if (typeof Lenis === 'undefined') return;
+  const lenis = new Lenis({
+    duration: 1.2,
+    easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smoothWheel: true,
+  });
+  window._lenis = lenis;
+
+  function raf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
+  requestAnimationFrame(raf);
+}
+
+// ---- Custom Gold Cursor ----
+function initCustomCursor() {
+  if (!window.matchMedia('(pointer: fine)').matches) return;
+  const dot  = document.getElementById('cursor-dot');
+  const ring = document.getElementById('cursor-ring');
+  if (!dot || !ring) return;
+
+  let mx = -100, my = -100;
+  let rx = -100, ry = -100;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    dot.style.left = mx + 'px';
+    dot.style.top  = my + 'px';
+  });
+
+  // Ring follows with smooth lerp
+  (function lerp() {
+    rx += (mx - rx) * 0.13;
+    ry += (my - ry) * 0.13;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(lerp);
+  })();
+
+  // Hover state
+  const hoverSel = 'a,button,label,[role="button"],.skill-tab,.filter-btn,.social-link,.skill-card,.nav-link,.project-card,.cert-card';
+  document.querySelectorAll(hoverSel).forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+    el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+  });
+
+  // Click state
+  document.addEventListener('mousedown', () => document.body.classList.add('cursor-click'));
+  document.addEventListener('mouseup',   () => document.body.classList.remove('cursor-click'));
+
+  // Hide when leaving window
+  document.addEventListener('mouseleave', () => { dot.style.opacity='0'; ring.style.opacity='0'; });
+  document.addEventListener('mouseenter', () => { dot.style.opacity='1'; ring.style.opacity='1'; });
+}
+
+// ---- Card Spotlight Glow ----
+function initCardSpotlight() {
+  if (window.matchMedia('(max-width: 768px)').matches) return;
+
+  document.querySelectorAll('.project-card, .cert-card').forEach(card => {
+    const spot = document.createElement('div');
+    spot.className = 'card-spot';
+    card.insertBefore(spot, card.firstChild);
+
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const x = ((e.clientX - r.left) / r.width  * 100).toFixed(1);
+      const y = ((e.clientY - r.top)  / r.height * 100).toFixed(1);
+      spot.style.background = `radial-gradient(240px circle at ${x}% ${y}%, rgba(212,175,55,0.12) 0%, transparent 70%)`;
+      spot.style.opacity = '1';
+    });
+    card.addEventListener('mouseleave', () => { spot.style.opacity = '0'; });
+  });
+}
+
+// ---- Hero Character Stagger ----
+function initCharSplit() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const h1 = document.querySelector('#hero h1');
+  if (!h1) return;
+
+  let delay = 0.05;
+  const STEP = 0.042;
+
+  function splitNode(node, baseDelay) {
+    const wrap = document.createElement('span');
+    wrap.className = 'char-wrap';
+    const text = node.nodeType === Node.TEXT_NODE ? node.textContent : node.textContent;
+    text.split('').forEach(char => {
+      const s = document.createElement('span');
+      s.className = 'ch';
+      s.textContent = char === ' ' ? ' ' : char;
+      s.style.animationDelay = delay.toFixed(3) + 's';
+      wrap.appendChild(s);
+      delay += STEP;
+    });
+    return wrap;
+  }
+
+  [...h1.childNodes].forEach(node => {
+    if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
+      h1.replaceChild(splitNode(node), node);
+    } else if (node.nodeName === 'SPAN') {
+      const origColor = node.getAttribute('style') || '';
+      const wrap = splitNode(node);
+      wrap.setAttribute('style', origColor);
+      h1.replaceChild(wrap, node);
+    }
+  });
+}
+
+// ---- Magnetic Buttons (hero only) ----
+function initMagneticBtns() {
+  if (window.matchMedia('(max-width: 768px)').matches) return;
+
+  document.querySelectorAll('#hero .btn-gold, #hero .btn-outline').forEach(btn => {
+    btn.addEventListener('mousemove', e => {
+      const r = btn.getBoundingClientRect();
+      const x = (e.clientX - r.left - r.width  / 2) * 0.22;
+      const y = (e.clientY - r.top  - r.height / 2) * 0.22;
+      btn.style.transform = `translate(${x}px, ${y}px)`;
+    });
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform = '';
     });
   });
 }

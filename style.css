@@ -698,3 +698,119 @@ body {
 
 /* 11. Project/cert card — prep for JS tilt */
 .project-card, .cert-card { will-change: transform; }
+
+/* ================================================================
+   PREMIUM LAYER 2 — Cursor / Spotlight / Character / Magnetic
+   ================================================================ */
+
+/* Disable native smooth scroll — Lenis owns it */
+html { scroll-behavior: auto !important; }
+
+/* --- Custom gold cursor (mouse devices only) --- */
+#cursor-dot,
+#cursor-ring { display: none; }
+
+@media (pointer: fine) {
+  body { cursor: none; }
+  a, button, label, select, textarea, input,
+  [role="button"], .skill-tab, .filter-btn,
+  .social-link, .skill-card, .nav-link { cursor: none; }
+
+  #cursor-dot {
+    display: block;
+    position: fixed; top: 0; left: 0;
+    width: 6px; height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10001;
+    transform: translate(-50%, -50%);
+    transition: width 0.15s ease, height 0.15s ease, opacity 0.3s ease;
+    will-change: transform;
+  }
+
+  #cursor-ring {
+    display: block;
+    position: fixed; top: 0; left: 0;
+    width: 36px; height: 36px;
+    border: 1.5px solid rgba(212,175,55,0.5);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10000;
+    transform: translate(-50%, -50%);
+    transition: width 0.35s ease, height 0.35s ease,
+                border-color 0.25s ease, opacity 0.3s ease;
+    will-change: transform;
+  }
+
+  body.cursor-hover #cursor-ring {
+    width: 52px; height: 52px;
+    border-color: rgba(212,175,55,0.8);
+  }
+  body.cursor-hover #cursor-dot {
+    width: 4px; height: 4px;
+  }
+  body.cursor-click #cursor-dot  { transform: translate(-50%,-50%) scale(0.5); }
+  body.cursor-click #cursor-ring { transform: translate(-50%,-50%) scale(0.8); }
+}
+
+/* --- Card spotlight glow (radial gradient tracks cursor) --- */
+.project-card,
+.cert-card {
+  isolation: isolate;
+  overflow: hidden;
+}
+.card-spot {
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  z-index: 0;
+}
+.project-card > :not(.card-spot),
+.cert-card > :not(.card-spot) {
+  position: relative;
+  z-index: 1;
+}
+
+/* --- Hero character stagger reveal --- */
+@keyframes charIn {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+.char-wrap { display: inline-block; perspective: 500px; }
+.char-wrap .ch {
+  display: inline-block;
+  animation: charIn 0.55s cubic-bezier(0.16,1,0.3,1) both;
+}
+
+/* --- Magnetic button transition reset --- */
+.btn-gold,
+.btn-outline {
+  transition: transform 0.4s cubic-bezier(0.16,1,0.3,1),
+              background 0.3s ease,
+              border-color 0.3s ease,
+              box-shadow 0.3s ease;
+}
+
+/* --- Reduced motion: kill everything animated --- */
+@media (prefers-reduced-motion: reduce) {
+  #cursor-dot, #cursor-ring { display: none !important; }
+  .char-wrap .ch { animation: none !important; opacity: 1 !important; filter: none !important; }
+  .particle { animation: none !important; opacity: 0 !important; }
+  .about-photo { animation: none !important; }
+  .section-title { animation: none !important; -webkit-text-fill-color: var(--text) !important; }
+  .skill-grid.active,
+  .skill-grid.active .skill-card { animation: none !important; opacity: 1 !important; }
+  .filter-btn.active { animation: none !important; }
+  .card-spot { display: none; }
+}
