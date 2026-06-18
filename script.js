@@ -16,7 +16,6 @@ function initAll() {
   initSkillTabs();
   initPortfolioFilter();
   initCertModal();
-  initGalleryLightbox();
   initContactForm();
   initSmoothScroll();
   initParticles();
@@ -28,6 +27,7 @@ function initAll() {
   initCharSplit();
   initMagneticBtns();
   initCatEyes();
+  initSnow();
 }
 
 // Lucide needs to load from CDN first; retry until available
@@ -293,33 +293,6 @@ function initCertModal() {
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 }
 
-// ---- Gallery Lightbox ----
-function initGalleryLightbox() {
-  const lb = document.getElementById('lightbox');
-  const lbImg = document.getElementById('lightbox-img');
-  const lbClose = document.getElementById('lb-close');
-
-  document.querySelectorAll('.masonry-item').forEach(item => {
-    item.addEventListener('click', () => {
-      const img = item.querySelector('img');
-      if (!img) return;
-      lbImg.src = img.src;
-      lbImg.alt = img.alt;
-      lb.classList.add('open');
-      document.body.style.overflow = 'hidden';
-    });
-  });
-
-  const closeLb = () => {
-    lb.classList.remove('open');
-    document.body.style.overflow = '';
-  };
-
-  lbClose.addEventListener('click', closeLb);
-  lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
-}
-
 // ---- Contact Form ----
 function initContactForm() {
   const form = document.getElementById('contact-form');
@@ -457,6 +430,96 @@ function initRipple() {
       btn.appendChild(ripple);
       setTimeout(() => ripple.remove(), 700);
     });
+  });
+}
+
+// ---- Global Snow / Sparkle Canvas ----
+function initSnow() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const canvas = document.getElementById('snow-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  let W, H;
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // Two particle types: drifting snow + twinkling stars
+  const COUNT = 65;
+  const particles = Array.from({ length: COUNT }, (_, i) => ({
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight,
+    r: 0.6 + Math.random() * 1.8,
+    vx: (Math.random() - 0.5) * 0.25,
+    vy: 0.18 + Math.random() * 0.35,   // drift downward (snow)
+    opacity: 0.1 + Math.random() * 0.28,
+    phase: Math.random() * Math.PI * 2,
+    twinkleSpeed: 0.4 + Math.random() * 0.8,
+    isStar: i < 20,                     // first 20 are cross-shaped stars
+  }));
+
+  function drawStar(x, y, r, alpha) {
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    ctx.strokeStyle = `rgba(212,175,55,1)`;
+    ctx.lineWidth = r * 0.6;
+    ctx.lineCap = 'round';
+    // Draw + cross
+    ctx.beginPath();
+    ctx.moveTo(x - r * 2, y); ctx.lineTo(x + r * 2, y);
+    ctx.moveTo(x, y - r * 2); ctx.lineTo(x, y + r * 2);
+    ctx.stroke();
+    // Draw × cross (rotated 45°)
+    const d = r * 1.4;
+    ctx.beginPath();
+    ctx.moveTo(x - d, y - d); ctx.lineTo(x + d, y + d);
+    ctx.moveTo(x + d, y - d); ctx.lineTo(x - d, y + d);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  let raf;
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    const t = Date.now() * 0.001;
+
+    particles.forEach(p => {
+      // Twinkle: pulse opacity
+      const pulse = 0.65 + 0.35 * Math.sin(t * p.twinkleSpeed + p.phase);
+      const alpha = p.opacity * pulse;
+
+      if (p.isStar) {
+        drawStar(p.x, p.y, p.r, alpha * 0.85);
+      } else {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(212,175,55,${alpha})`;
+        ctx.fill();
+      }
+
+      // Move
+      p.x += p.vx + Math.sin(t * 0.4 + p.phase) * 0.12;
+      p.y += p.vy;
+
+      // Wrap vertically + horizontal
+      if (p.y > H + 4) { p.y = -4; p.x = Math.random() * W; }
+      if (p.x < -4)     p.x = W + 4;
+      if (p.x > W + 4)  p.x = -4;
+    });
+
+    raf = requestAnimationFrame(draw);
+  }
+
+  draw();
+
+  // Pause when tab is hidden (save CPU)
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) cancelAnimationFrame(raf);
+    else draw();
   });
 }
 
