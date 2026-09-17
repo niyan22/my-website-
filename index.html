@@ -448,12 +448,15 @@
         <button class="filter-btn" data-filter="web">Web Development</button>
         <button class="filter-btn" data-filter="mobile">Mobile App</button>
         <button class="filter-btn" data-filter="uiux">UI/UX Design</button>
+        <button class="filter-btn" data-filter="kkn">KKN</button>
       </div>
 
-      <!-- Single project card, centered -->
-      <div class="flex justify-center" id="portfolio-grid">
-        <div class="project-card w-full max-w-2xl" data-cat="web" data-aos="fade-up">
-          <div class="proj-thumb" style="height: 260px;">
+      <!-- Portfolio grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto" id="portfolio-grid">
+
+        <!-- BMKG -->
+        <div class="project-card" data-cat="web" data-aos="fade-up">
+          <div class="proj-thumb" style="height: 220px;">
             <img src="bmkg-dashboard.png" alt="BMKG Network Monitoring System">
             <div class="proj-overlay">
               <a href="https://github.com/niyan22/web-monitoring-jaringan-bmkg" target="_blank" rel="noopener" class="btn-gold text-sm">
@@ -475,6 +478,58 @@
             </div>
           </div>
         </div>
+
+        <!-- SELARAS — KKN -->
+        <div class="project-card" data-cat="kkn" data-aos="fade-up" data-aos-delay="100">
+          <div class="proj-thumb" style="height: 220px;">
+            <!-- Mangrove-themed illustrated placeholder -->
+            <div class="selaras-thumb w-full h-full flex flex-col items-center justify-center gap-2" style="background: linear-gradient(160deg, #0d2d1a 0%, #1a4a2e 50%, #0a3d2f 100%); position: relative; overflow: hidden;">
+              <!-- water ripple background -->
+              <div style="position:absolute;inset:0;opacity:0.18;background:repeating-linear-gradient(0deg, transparent, transparent 18px, rgba(77,175,124,0.4) 19px);"></div>
+              <!-- mangrove silhouette -->
+              <svg viewBox="0 0 220 120" xmlns="http://www.w3.org/2000/svg" style="width:90%;max-width:200px;position:absolute;bottom:0;opacity:0.55;">
+                <ellipse cx="40" cy="70" rx="32" ry="28" fill="#1e6b42"/>
+                <ellipse cx="60" cy="55" rx="26" ry="22" fill="#27864f"/>
+                <ellipse cx="110" cy="48" rx="36" ry="30" fill="#1e6b42"/>
+                <ellipse cx="140" cy="60" rx="28" ry="24" fill="#27864f"/>
+                <ellipse cx="180" cy="68" rx="30" ry="25" fill="#1e6b42"/>
+                <rect x="37" y="88" width="5" height="32" fill="#4d3a1a"/>
+                <rect x="107" y="78" width="6" height="42" fill="#4d3a1a"/>
+                <rect x="177" y="87" width="5" height="33" fill="#4d3a1a"/>
+                <!-- roots -->
+                <path d="M37 110 Q28 120 20 115 M37 110 Q35 122 27 125 M113 118 Q102 126 95 120 M113 118 Q110 128 103 130" stroke="#4d3a1a" stroke-width="2" fill="none"/>
+              </svg>
+              <!-- label -->
+              <div style="position:relative;z-index:1;text-align:center;">
+                <p class="font-poppins font-bold text-2xl tracking-wide" style="color:#D4AF37;text-shadow:0 2px 12px rgba(0,0,0,0.6);">SELARAS</p>
+                <p class="font-poppins text-xs tracking-wider mt-0.5" style="color:rgba(212,175,55,0.75);">Sebauk Lestari dan Asri</p>
+              </div>
+            </div>
+            <div class="proj-overlay">
+              <a href="https://kitaselaras.my.id" target="_blank" rel="noopener" class="btn-gold text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                Visit Website
+              </a>
+            </div>
+          </div>
+          <div class="p-6 flex flex-col flex-1">
+            <div class="flex items-start justify-between gap-2 mb-3">
+              <h3 class="font-poppins font-semibold text-lg" style="color: var(--text)">SELARAS — Mangrove Information Website</h3>
+              <span class="tag shrink-0" style="background:rgba(34,197,94,0.12);color:#22C55E;border-color:rgba(34,197,94,0.25);">KKN</span>
+            </div>
+            <p class="text-sm leading-relaxed mb-4 flex-1" style="color: var(--text-muted)">
+              Website informasi mangrove yang dikembangkan selama program KKN (Kuliah Kerja Nyata). SELARAS — <em>Sebauk Lestari dan Asri</em> — menyajikan edukasi tentang ekosistem mangrove, upaya pelestarian, serta potensi wisata alam berbasis mangrove bagi masyarakat setempat.
+            </p>
+            <div class="flex items-center gap-2 mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--gold);flex-shrink:0;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+              <a href="https://kitaselaras.my.id" target="_blank" rel="noopener" class="text-xs font-poppins font-medium hover:underline" style="color:var(--gold);">kitaselaras.my.id</a>
+            </div>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">KKN</span>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>

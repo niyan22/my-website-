@@ -246,7 +246,7 @@ function initPortfolioFilter() {
       cards.forEach(card => {
         const cat = card.dataset.cat;
         if (filter === 'all' || cat === filter) {
-          card.style.display = 'flex';
+          card.style.display = '';
           card.style.opacity = '0';
           card.style.transform = 'translateY(16px)';
           requestAnimationFrame(() => {
